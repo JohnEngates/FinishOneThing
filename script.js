@@ -33,39 +33,14 @@ const quotes = [
     }
 ];
 
-function initializeQuotes() {
-    const quoteText = document.getElementById('quote-text');
-    const quoteAuthor = document.getElementById('quote-author');
-    const newQuoteButton = document.getElementById('new-quote');
-
-    // Check if elements exist
-    if (!quoteText || !quoteAuthor || !newQuoteButton) {
-        console.error('Required quote elements not found. Retrying in 100ms...');
-        // Retry initialization after a short delay
-        setTimeout(initializeQuotes, 100);
-        return;
-    }
-
-    function getRandomQuote() {
-        return quotes[Math.floor(Math.random() * quotes.length)];
-    }
-
-    function updateQuote() {
-        try {
-            const quote = getRandomQuote();
-            if (quoteText && quoteAuthor) {
-                quoteText.textContent = quote.text;
-                quoteAuthor.textContent = `— ${quote.author}`;
-            }
-        } catch (error) {
-            console.error('Error updating quote:', error);
-        }
-    }
-
-    newQuoteButton.addEventListener('click', updateQuote);
-    updateQuote(); // Show initial quote
+function displayQuote() {
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById('quote-text').textContent = quote.text;
+    document.getElementById('quote-author').textContent = `— ${quote.author}`;
 }
 
-// Try both DOMContentLoaded and load events
-document.addEventListener('DOMContentLoaded', initializeQuotes);
-window.addEventListener('load', initializeQuotes); 
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    displayQuote();
+    document.getElementById('new-quote').addEventListener('click', displayQuote);
+}); 
