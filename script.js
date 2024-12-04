@@ -33,16 +33,26 @@ const quotes = [
     }
 ];
 
-function getRandomQuote() {
-    const quote = quotes[Math.floor(Math.random() * quotes.length)];
-    return quote;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    const newQuoteButton = document.getElementById('new-quote');
 
-function updateQuote() {
-    const quote = getRandomQuote();
-    document.getElementById('quote-text').textContent = quote.text;
-    document.getElementById('quote-author').textContent = `— ${quote.author}`;
-}
+    function getRandomQuote() {
+        return quotes[Math.floor(Math.random() * quotes.length)];
+    }
 
-document.getElementById('new-quote').addEventListener('click', updateQuote);
-document.addEventListener('DOMContentLoaded', updateQuote); 
+    function updateQuote() {
+        if (quoteText && quoteAuthor) {
+            const quote = getRandomQuote();
+            quoteText.textContent = quote.text;
+            quoteAuthor.textContent = `— ${quote.author}`;
+        }
+    }
+
+    if (newQuoteButton) {
+        newQuoteButton.addEventListener('click', updateQuote);
+    }
+    
+    updateQuote();
+}); 
