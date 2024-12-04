@@ -36,34 +36,47 @@ const quotes = [
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
     
-    const quoteText = document.getElementById('quote-text');
-    const quoteAuthor = document.getElementById('quote-author');
-    const newQuoteButton = document.getElementById('new-quote');
+    let attempts = 0;
+    const maxAttempts = 5;
     
-    console.log('Elements found:', {
-        quoteText: !!quoteText,
-        quoteAuthor: !!quoteAuthor,
-        newQuoteButton: !!newQuoteButton
-    });
+    function initQuotes() {
+        console.log('Attempt:', attempts + 1);
+        
+        const quoteText = document.getElementById('quote-text');
+        const quoteAuthor = document.getElementById('quote-author');
+        const newQuoteButton = document.getElementById('new-quote');
+        
+        if (!quoteText || !quoteAuthor || !newQuoteButton) {
+            attempts++;
+            if (attempts < maxAttempts) {
+                console.log('Elements not found, retrying...');
+                setTimeout(initQuotes, 500); // Try again in 500ms
+                return;
+            }
+            console.error('Failed to find elements after', maxAttempts, 'attempts');
+            return;
+        }
+        
+        console.log('Elements found:', {
+            quoteText: !!quoteText,
+            quoteAuthor: !!quoteAuthor,
+            newQuoteButton: !!newQuoteButton
+        });
 
-    function getRandomQuote() {
-        return quotes[Math.floor(Math.random() * quotes.length)];
-    }
+        function getRandomQuote() {
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
 
-    function updateQuote() {
-        if (quoteText && quoteAuthor) {
+        function updateQuote() {
             const quote = getRandomQuote();
             console.log('Updating quote:', quote);
             quoteText.textContent = quote.text;
             quoteAuthor.textContent = `— ${quote.author}`;
-        } else {
-            console.error('Quote elements not found');
         }
-    }
 
-    if (newQuoteButton) {
         newQuoteButton.addEventListener('click', updateQuote);
+        updateQuote();
     }
     
-    updateQuote();
+    initQuotes();
 }); 
