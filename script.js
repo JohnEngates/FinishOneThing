@@ -34,9 +34,17 @@ const quotes = [
 ];
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded');
+    
     const quoteText = document.getElementById('quote-text');
     const quoteAuthor = document.getElementById('quote-author');
     const newQuoteButton = document.getElementById('new-quote');
+    
+    console.log('Elements found:', {
+        quoteText: !!quoteText,
+        quoteAuthor: !!quoteAuthor,
+        newQuoteButton: !!newQuoteButton
+    });
 
     function getRandomQuote() {
         return quotes[Math.floor(Math.random() * quotes.length)];
@@ -45,8 +53,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateQuote() {
         if (quoteText && quoteAuthor) {
             const quote = getRandomQuote();
+            console.log('Updating quote:', quote);
             quoteText.textContent = quote.text;
             quoteAuthor.textContent = `— ${quote.author}`;
+        } else {
+            console.error('Quote elements not found');
         }
     }
 
