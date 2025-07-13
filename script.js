@@ -121,14 +121,122 @@ const quotes = [
     }
 ];
 
+let currentQuoteIndex = -1;
+
 function displayQuote() {
-    const quote = quotes[Math.floor(Math.random() * quotes.length)];
-    document.getElementById('quote-text').textContent = quote.text;
-    document.getElementById('quote-author').textContent = `— ${quote.author}`;
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    const quoteBox = document.querySelector('.quote-box');
+    
+    // Prevent showing the same quote twice in a row
+    let newIndex;
+    do {
+        newIndex = Math.floor(Math.random() * quotes.length);
+    } while (newIndex === currentQuoteIndex && quotes.length > 1);
+    
+    currentQuoteIndex = newIndex;
+    const quote = quotes[currentQuoteIndex];
+    
+    // Add fade-out animation
+    quoteBox.style.animation = 'fadeOut 0.3s ease-out forwards';
+    
+    setTimeout(() => {
+        // Update content
+        quoteText.textContent = quote.text;
+        quoteAuthor.textContent = `— ${quote.author}`;
+        
+        // Add fade-in animation
+        quoteBox.style.animation = 'fadeIn 0.5s ease-out forwards';
+    }, 300);
+}
+
+// Add fade animations to CSS dynamically
+function addFadeAnimations() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-20px); }
+        }
+        
+        .quote-box.changing {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Add keyboard shortcut for new quote
+function addKeyboardShortcut() {
+    document.addEventListener('keydown', (e) => {
+        // Press 'Space' or 'Enter' to get a new quote
+        if (e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault();
+            document.getElementById('new-quote').click();
+        }
+    });
+}
+
+// Add click effect to button
+function enhanceButtonClick() {
+    const button = document.getElementById('new-quote');
+    
+    button.addEventListener('click', function(e) {
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+}
+
+// Add ripple effect styles
+function addRippleStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    addFadeAnimations();
+    addRippleStyles();
     displayQuote();
-    document.getElementById('new-quote').addEventListener('click', displayQuote);
+    
+    const newQuoteBtn = document.getElementById('new-quote');
+    newQuoteBtn.addEventListener('click', displayQuote);
+    
+    enhanceButtonClick();
+    addKeyboardShortcut();
+    
+    // Auto-rotate quotes every 30 seconds (optional)
+    // setInterval(displayQuote, 30000);
 }); 
