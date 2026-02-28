@@ -116,6 +116,58 @@ const quotes = [
         author: "John Muir"
     },
     {
+        text: "Do what you can, with what you have, where you are.",
+        author: "Theodore Roosevelt"
+    },
+    {
+        text: "The way to get started is to quit talking and begin doing.",
+        author: "Walt Disney"
+    },
+    {
+        text: "A year from now you may wish you had started today.",
+        author: "Karen Lamb"
+    },
+    {
+        text: "The best time to plant a tree was 20 years ago. The second best time is now.",
+        author: "Chinese Proverb"
+    },
+    {
+        text: "You miss 100% of the shots you don't take.",
+        author: "Wayne Gretzky"
+    },
+    {
+        text: "If you spend too much time thinking about a thing, you'll never get it done.",
+        author: "Bruce Lee"
+    },
+    {
+        text: "What we fear doing most is usually what we most need to do.",
+        author: "Tim Ferriss"
+    },
+    {
+        text: "Discipline is choosing between what you want now and what you want most.",
+        author: "Abraham Lincoln"
+    },
+    {
+        text: "The man who moves a mountain begins by carrying away small stones.",
+        author: "Confucius"
+    },
+    {
+        text: "I have not failed. I've just found 10,000 ways that won't work.",
+        author: "Thomas Edison"
+    },
+    {
+        text: "Knowing is not enough; we must apply. Willing is not enough; we must do.",
+        author: "Johann Wolfgang von Goethe"
+    },
+    {
+        text: "An ounce of action is worth a ton of theory.",
+        author: "Ralph Waldo Emerson"
+    },
+    {
+        text: "What you do today can improve all your tomorrows.",
+        author: "Ralph Marston"
+    },
+    {
         text: "It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena.",
         author: "Theodore Roosevelt"
     }
@@ -177,64 +229,14 @@ function addKeyboardShortcut() {
     });
 }
 
-// Add click effect to button
-function enhanceButtonClick() {
-    const button = document.getElementById('new-quote');
-    
-    button.addEventListener('click', function(e) {
-        // Create ripple effect
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.classList.add('ripple');
-        
-        this.appendChild(ripple);
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    });
-}
-
-// Add ripple effect styles
-function addRippleStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple-animation 0.6s ease-out;
-            pointer-events: none;
-        }
-        
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     addFadeAnimations();
-    addRippleStyles();
     displayQuote();
-    
+
     const newQuoteBtn = document.getElementById('new-quote');
     newQuoteBtn.addEventListener('click', displayQuote);
-    
-    enhanceButtonClick();
+
     addKeyboardShortcut();
     
     // Auto-rotate quotes every 30 seconds (optional)
