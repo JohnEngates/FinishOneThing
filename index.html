@@ -31,20 +31,27 @@
       gtag('config', 'G-0V8G9B2XZ2');
     </script>
     
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Cpath d='M18 33l10 10 18-20' fill='none' stroke='%2306b6d4' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <meta name="theme-color" content="#0f172a">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Finish One Thing Today</h1>
+        <h1>Finish One Thing <span class="today">Today</span></h1>
         <div class="message">
             <p class="main-text">What's the <span class="highlight">ONE thing</span> you'll complete today?</p>
             <p class="sub-text">Small steps lead to big achievements.</p>
         </div>
         <div class="quote-box">
-            <p id="quote-text"></p>
-            <p id="quote-author"></p>
+            <div class="quote-content" id="quote-content">
+                <p id="quote-text"></p>
+                <p id="quote-author"></p>
+            </div>
         </div>
-        <button id="new-quote">New Quote</button>
+        <div class="actions">
+            <button id="new-quote">New Quote</button>
+            <p class="hint">or press <kbd>space</kbd></p>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

@@ -170,52 +170,67 @@ const quotes = [
     {
         text: "It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena.",
         author: "Theodore Roosevelt"
+    },
+    {
+        text: "The beginning is the most important part of the work.",
+        author: "Plato"
+    },
+    {
+        text: "Well begun is half done.",
+        author: "Proverb, quoted by Aristotle"
+    },
+    {
+        text: "The shortest answer is doing.",
+        author: "George Herbert"
+    },
+    {
+        text: "While we are postponing, life speeds by.",
+        author: "Seneca"
+    },
+    {
+        text: "Amateurs sit and wait for inspiration, the rest of us just get up and go to work.",
+        author: "Stephen King"
     }
 ];
 
 let currentQuoteIndex = -1;
 
+let isChanging = false;
+
 function displayQuote() {
+    if (isChanging) return;
     const quoteText = document.getElementById('quote-text');
     const quoteAuthor = document.getElementById('quote-author');
-    const quoteBox = document.querySelector('.quote-box');
-    
+    const content = document.getElementById('quote-content');
+
     // Prevent showing the same quote twice in a row
     let newIndex;
     do {
         newIndex = Math.floor(Math.random() * quotes.length);
     } while (newIndex === currentQuoteIndex && quotes.length > 1);
-    
+
     currentQuoteIndex = newIndex;
     const quote = quotes[currentQuoteIndex];
-    
-    // Add fade-out animation
-    quoteBox.style.animation = 'fadeOut 0.3s ease-out forwards';
-    
-    setTimeout(() => {
-        // Update content
-        quoteText.textContent = quote.text;
-        quoteAuthor.textContent = `— ${quote.author}`;
-        
-        // Add fade-in animation
-        quoteBox.style.animation = 'fadeIn 0.5s ease-out forwards';
-    }, 300);
-}
 
-// Add fade animations to CSS dynamically
-function addFadeAnimations() {
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(-20px); }
-        }
-        
-        .quote-box.changing {
-            animation: fadeOut 0.3s ease-out forwards;
-        }
-    `;
-    document.head.appendChild(style);
+    const setText = () => {
+        quoteText.textContent = quote.text;
+        quoteAuthor.textContent = quote.author; // dash comes from CSS
+    };
+
+    // First load: no fade needed
+    if (!quoteText.textContent) {
+        setText();
+        return;
+    }
+
+    // Cross-fade: fade out, swap text, fade back in
+    isChanging = true;
+    content.classList.add('is-changing');
+    setTimeout(() => {
+        setText();
+        content.classList.remove('is-changing');
+        isChanging = false;
+    }, 350);
 }
 
 // Add keyboard shortcut for new quote
@@ -231,7 +246,6 @@ function addKeyboardShortcut() {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    addFadeAnimations();
     displayQuote();
 
     const newQuoteBtn = document.getElementById('new-quote');
