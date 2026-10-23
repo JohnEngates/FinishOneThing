@@ -254,6 +254,29 @@ button:active,
     color: rgba(255, 255, 255, 0.45);
 }
 
+.site-footer {
+    position: fixed;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    z-index: 1;
+}
+
+.site-footer a {
+    color: rgba(255, 255, 255, 0.22);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+    color: var(--accent);
+    outline: none;
+}
+
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
     .container {
